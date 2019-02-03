@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Vinay Sesham'
 SITENAME = "Vinay's Blog"
-SITEURL = ''
+SITEURL = 'https://vsesham.github.io'
 
 PATH = 'content'
 
@@ -30,6 +30,15 @@ SOCIAL = (('You can add links in your config file', '#'),
           ('Another social link', '#'),)
 
 DEFAULT_PAGINATION = 10
+
+MARKUP = ('md', 'ipynb')
+
+PLUGIN_PATHS = ['./plugins']
+PLUGINS = ['ipynb.markup']
+
+# if you create jupyter files in the content dir, snapshots are saved with the same
+# metadata. These need to be ignored. 
+IGNORE_FILES = [".ipynb_checkpoints"]  
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
