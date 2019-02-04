@@ -39,6 +39,7 @@ PLUGINS = ['ipynb.markup']
 # if you create jupyter files in the content dir, snapshots are saved with the same
 # metadata. These need to be ignored. 
 IGNORE_FILES = [".ipynb_checkpoints"]
+USE_FOLDER_AS_CATEGORY = True
 DISPLAY_CATEGORIES_ON_MENU = False  
 
 # Uncomment following line if you want document-relative URLs when developing
