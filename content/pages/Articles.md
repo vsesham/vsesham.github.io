@@ -1,3 +1,3 @@
 title: Articles
 
-* [Curse of Dimensionality]({filename}/cut_the_time_notebook.ipynb)
+* [Curse of Dimensionality]({filename}/projects/cut_the_time_notebook.ipynb)
