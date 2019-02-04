@@ -6,8 +6,6 @@ AUTHOR = 'Vinay Sesham'
 SITENAME = "Vinay's Blog"
 SITEURL = ''
 
-# THEME = "/users/vinaysesham/pelican-themes/blue-penguin"
-
 PATH = 'content'
 
 TIMEZONE = 'America/Phoenix'
