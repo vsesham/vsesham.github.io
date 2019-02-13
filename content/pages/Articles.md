@@ -1,5 +1,6 @@
 title: Articles
 
-Kaggle Projects
-===============
-* [Curse of Dimensionality]({filename}/projects/cut_the_time_notebook.ipynb)
+My DataScience Journey
+======================
+* [Bokeh Application using Quandl API]({filename}/projects/Bokeh Dashboards using Quandl API.ipynb)
+
