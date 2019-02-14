@@ -3,32 +3,33 @@
 <head>
         <meta charset="utf-8" />
         <title>Vinay's Blog... - bokeh-app</title>
-        <link rel="stylesheet" href="../theme/css/main.css" />
+        <link rel="stylesheet" href="https://vsesham.github.io/theme/css/main.css" />
+        <link href="https://vsesham.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Vinay's Blog... Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="../">Vinay's Blog... </a></h1>
+                <h1><a href="https://vsesham.github.io/">Vinay's Blog... </a></h1>
                 <nav><ul>
-                    <li><a href="../pages/about.html">About</a></li>
-                    <li><a href="../pages/articles.html">Articles</a></li>
-                    <li><a href="../pages/projects.html">Projects</a></li>
+                    <li><a href="https://vsesham.github.io/pages/about.html">About</a></li>
+                    <li><a href="https://vsesham.github.io/pages/articles.html">Articles</a></li>
+                    <li><a href="https://vsesham.github.io/pages/projects.html">Projects</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="../bokeh-application-using-quandl.html">Bokeh Application Using Quandl</a></h1>
+                    <h1 class="entry-title"><a href="https://vsesham.github.io/bokeh-application-using-quandl.html">Bokeh Application Using Quandl</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2019-02-12T00:00:00-07:00">
                 Published: Tue 12 February 2019
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="../author/vinay-sesham.html">Vinay Sesham</a>
+                By                         <a class="url fn" href="https://vsesham.github.io/author/vinay-sesham.html">Vinay Sesham</a>
         </address>
-<p>In <a href="../category/articles.html">articles</a>.</p>
-<p>tags: <a href="../tag/bokeh-app.html">bokeh-app</a> </p>
+<p>In <a href="https://vsesham.github.io/category/articles.html">articles</a>.</p>
+<p>tags: <a href="https://vsesham.github.io/tag/bokeh-app.html">bokeh-app</a> </p>
 </footer><!-- /.post-info --><style type="text/css">/*!
 *
 * IPython notebook
@@ -1005,10 +1006,9 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Bokeh-dashboards-using-Quandl-datasets">Bokeh dashboards using Quandl datasets<a class="anchor-link" href="#Bokeh-dashboards-using-Quandl-datasets">&#182;</a></h1><p>Though I am not from financial industry, I can understand the impact that precious commodities have on stock markets. So I started looking into commodity datasets available for creating useful charts/dashboard. One of my colleague told me about
-<a href="https://www.quandl.com/">Quandl</a> which has datasets realted to finance and economy targeting investment professional.</p>
-<h2 id="How-Quandl-works">How Quandl works<a class="anchor-link" href="#How-Quandl-works">&#182;</a></h2><p>You need to sign up for Quandl <a href="https://www.quandl.com/sign-up-modal?defaultModal=showSignUp">account</a> which allows you to download free data and samples of premium data. Once you have signed up, you will be provided with API key and you can find the API key under account settings. To know more about API limits for a free account click <a href="https://docs.quandl.com/docs/getting-started">here</a></p>
-<p><img src="attachment:AccountProfile_Quandl.png" alt="AccountProfile_Quandl.png"></p>
+<h1 id="Bokeh-dashboards-using-Quandl-datasets">Bokeh dashboards using Quandl datasets<a class="anchor-link" href="#Bokeh-dashboards-using-Quandl-datasets">&#182;</a></h1><p>Though I am not from financial industry, I can understand the need to track how precious commodities and stocks are performing over years. So I started looking into commodity/stock datasets available for creating useful charts/dashboard. One of my colleague told me about
+<a href="https://www.quandl.com/">Quandl</a> which has datasets realted to finance and economy sectors. So I set out to create a bokeh application using quandl data and this article outlines the steps performed to achieve it. In order to demonstrate how the app is built, I am going to choose a couple of stocks and commodities. You can extend it other quandl datasets.</p>
+<h2 id="About-Quandl">About Quandl<a class="anchor-link" href="#About-Quandl">&#182;</a></h2><p>You need to sign up for Quandl <a href="https://www.quandl.com/sign-up-modal?defaultModal=showSignUp">account</a> which allows you to download free data and samples of premium data. Once you have signed up, you will be provided with API key and you can find the API key under account settings. To know more about API limits for a free account click <a href="https://docs.quandl.com/docs/getting-started">here</a></p>
 <p>You can use Quandl API in R, Python and through Excel plugin. I went for Python as Quandl has a package that you can install using pip. I won't go into the details as it is well <a href="https://docs.quandl.com/docs/python-installation">documented</a> by quandl's team.</p>
 
 </div>
@@ -1133,7 +1133,8 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tab2---Stocks">Tab2 - Stocks<a class="anchor-link" href="#Tab2---Stocks">&#182;</a></h2><h3 id="main.py">main.py<a class="anchor-link" href="#main.py">&#182;</a></h3><p>Quandl has data on stocks which can be used to create dashboards that are useful for financial institutions. To get the data from quandl, we are going to use <em>get_table</em> method. Below is the code block for doing it</p>
+<h2 id="Tab2---Stocks">Tab2 - Stocks<a class="anchor-link" href="#Tab2---Stocks">&#182;</a></h2><h3 id="main.py">main.py<a class="anchor-link" href="#main.py">&#182;</a></h3><hr>
+<p>Quandl has data on stocks which can be used to create dashboards that are useful for financial institutions. To get the data from quandl, we are going to use <em>get_table</em> method. Below is the code block for doing it</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scripts.Stocks_Select</span> <span class="kn">import</span> <span class="n">stock_tab</span>
 
 <span class="n">tickerlist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AAPL&#39;</span><span class="p">,</span><span class="s1">&#39;IBM&#39;</span><span class="p">,</span><span class="s1">&#39;MSFT&#39;</span><span class="p">,</span><span class="s1">&#39;GOOG&#39;</span><span class="p">]</span>
@@ -1194,13 +1195,14 @@ h6:hover .anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Final-steps">Final steps<a class="anchor-link" href="#Final-steps">&#182;</a></h3><p>Combine tab1 and tab2</p>
+<h3 id="Final-steps">Final steps<a class="anchor-link" href="#Final-steps">&#182;</a></h3><hr>
+<p>Combine tab1 and tab2</p>
 <div class="highlight"><pre><span></span><span class="n">tabs</span> <span class="o">=</span> <span class="n">Tabs</span><span class="p">(</span><span class="n">tabs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tab1</span><span class="p">,</span><span class="n">tab2</span><span class="p">])</span>
 </pre></div>
 <p>Pass tabs to curdoc</p>
 <div class="highlight"><pre><span></span><span class="n">curdoc</span><span class="p">()</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">tabs</span><span class="p">)</span>
 </pre></div>
-<p>All the code blocks above should be added to <em>main.py</em></p>
+<p>All the code blocks above should be added to <em>main.py</em>. The directory format for the project should follow the structure outlined in the <a href="https://bokeh.pydata.org/en/latest/docs/user_guide/server.html#directory-format">link</a> here.</p>
 <p>The final output looks like</p>
 
 </div>
@@ -1208,7 +1210,7 @@ h6:hover .anchor-link {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
@@ -1226,7 +1228,7 @@ h6:hover .anchor-link {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[17]:</div>
+<div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -1271,7 +1273,7 @@ h6:hover .anchor-link {
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-                </article>
+<p>There are <a href="https://vsesham.github.io/bokeh-application-using-quandl.html#disqus_thread">comments</a>.</p>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
@@ -1286,6 +1288,7 @@ h6:hover .anchor-link {
                 <div class="social">
                         <h2>social</h2>
                         <ul>
+                            <li><a href="https://vsesham.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://www.linkedin.com/in/vinaybhargav/">LinkedIn</a></li>
                             <li><a href="https://twitter.com/vinaybhargav">Twitter</a></li>
@@ -1302,5 +1305,14 @@ h6:hover .anchor-link {
                 <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
+<script type="text/javascript">
+    var disqus_shortname = 'https-vsesham-github-io-1';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 </body>
 </html>
