@@ -10,7 +10,6 @@
         <header id="banner" class="body">
                 <h1><a href="../">Vinay's Blog... </a></h1>
                 <nav><ul>
-                    <li><a href="../pages/about.html">About</a></li>
                     <li><a href="../pages/articles.html">Articles</a></li>
                     <li><a href="../pages/projects.html">Projects</a></li>
                 </ul></nav>
@@ -18,17 +17,17 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="../bokeh-application-using-quandl.html">Bokeh Application Using Quandl</a></h1>
+                    <h1 class="entry-title"><a href="../about.html">About</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2019-02-12T00:00:00-07:00">
-                Published: Tue 12 February 2019
+        <abbr class="published" title="2019-04-16T00:00:00-07:00">
+                Published: Tue 16 April 2019
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="../author/vinay-sesham.html">Vinay Sesham</a>
         </address>
-<p>In <a href="../category/articles.html">articles</a>.</p>
-<p>tags: <a href="../tag/bokeh-app.html">bokeh-app</a> </p>
+<p>In <a href="../category/misc.html">misc</a>.</p>
+
 </footer><!-- /.post-info --><style type="text/css">/*!
 *
 * IPython notebook
@@ -1000,250 +999,34 @@ h6:hover .anchor-link {
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
 .ansi-bold { font-weight: bold; }
-</style>
+</style><body>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Bokeh-dashboards-using-Quandl-datasets">Bokeh dashboards using Quandl datasets<a class="anchor-link" href="#Bokeh-dashboards-using-Quandl-datasets">&#182;</a></h1><p>Though I am not from financial industry, I can understand the need to track how precious commodities and stocks are performing over years. So I started looking into commodity/stock datasets available for creating useful charts/dashboard. One of my colleague told me about
-<a href="https://www.quandl.com/">Quandl</a> which has datasets realted to finance and economy sectors. So I set out to create a bokeh application using quandl data and this article outlines the steps performed to achieve it. In order to demonstrate how the app is built, I am going to choose a couple of stocks and commodities. You can extend it other quandl datasets.</p>
-<h2 id="About-Quandl">About Quandl<a class="anchor-link" href="#About-Quandl">&#182;</a></h2><p>You need to sign up for Quandl <a href="https://www.quandl.com/sign-up-modal?defaultModal=showSignUp">account</a> which allows you to download free data and samples of premium data. Once you have signed up, you will be provided with API key and you can find the API key under account settings. To know more about API limits for a free account click <a href="https://docs.quandl.com/docs/getting-started">here</a></p>
-<p>You can use Quandl API in R, Python and through Excel plugin. I went for Python as Quandl has a package that you can install using pip. I won't go into the details as it is well <a href="https://docs.quandl.com/docs/python-installation">documented</a> by quandl's team.</p>
+<p>As a fellow data enthusiast, I have been thinking of setting up a blog or website to get 
+in touch with the wonderful data science community. Also I envisioned this platform to 
+improve my skills and be relevant with the rapid changes happening in the data field.
+I will be posting notebooks related to projects that I am working on and articles on newest
+technologies that I am learning and implementing in the projects. Please provide
+constructive feedback that could help me overcome any shortcomings. If you find anything
+useful, please like or share.</p>
+<p>For living I work as a Technical Solutions Architect at a mining solutions company. 
+I am responsible for information management architecture, data integration, 
+data quality, application integration and performance optimization. I am Passionate about 
+enabling organizations to embrace analytics and foster data driven decision making process 
+by integrating enterprise business application data using industry preferred data-
+integration tools.</p>
+<p>I love to play tennis and currently working on a pet project to explore tennis dataset and
+create an interesting data application from it. Here is the link to the application that
+I am actively developing <a href="https://serve-aces.herokuapp.com/">serve-aces</a></p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-Processing">Data Processing<a class="anchor-link" href="#Data-Processing">&#182;</a></h2><h3 id="main.py">main.py<a class="anchor-link" href="#main.py">&#182;</a></h3><hr>
-<p>Data can be accessed by calling the quandl api using the following code:</p>
-<div class="highlight"><pre><span></span><span class="n">quandl</span><span class="o">.</span><span class="n">ApiConfig</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;GIVE YOUR API KEY HERE&quot;</span>
-</pre></div>
-<p>Once you have set the api key you can quandl datatables using .get method</p>
-<div class="highlight"><pre><span></span><span class="n">data1</span> <span class="o">=</span> <span class="n">quandl</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LBMA/SILVER&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="s2">&quot;monthly&quot;</span><span class="p">)</span>
-<span class="n">data2</span> <span class="o">=</span> <span class="n">quandl</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;LBMA/GOLD&quot;</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="s2">&quot;monthly&quot;</span><span class="p">)</span>
-</pre></div>
-<p>Importing tab_commodity() function from commodity_select.py</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scripts.commodity_select</span> <span class="kn">import</span> <span class="n">tab_commodity</span>
-</pre></div>
-<p>We will be doing a bit a data processing to make sure data is consistent across commodities. Some data processing steps performed are</p>
-<ul>
-<li>Convert the output from quandl api get call into pandas dataframe</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span>
-</pre></div>
-<ul>
-<li>Fill NA values with 0</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-<ul>
-<li>Resetting the index on the dataframe</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
-<ul>
-<li>Converting the Date column to datetime object</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">df1</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">])</span>
-<span class="n">df1</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">])</span>
-
-<span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">])</span>
-<span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">])</span>
-</pre></div>
-<ul>
-<li>Selecting a subset of dataframe</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span><span class="s1">&#39;USD&#39;</span><span class="p">]]</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span><span class="s1">&#39;USD (PM)&#39;</span><span class="p">]]</span>
-</pre></div>
-<ul>
-<li>Renaming the column in df2 and assigning new column to each dataframe</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;USD (PM)&#39;</span><span class="p">:</span> <span class="s1">&#39;USD&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">df1</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;SILVER&#39;</span>
-<span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;GOLD&#39;</span>
-</pre></div>
-<ul>
-<li>Combining the dataframes</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">]</span>
-<span class="n">df_commodity</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
-</pre></div>
-<p>Also lets create a list of commodities that will be passed to the function in <em>commodity_select.py</em></p>
-<p>tab2 = tab_commodity(commodities,df_commodity)</p>
-<h2 id="Tab1---Precious-Commodities">Tab1 - Precious Commodities<a class="anchor-link" href="#Tab1---Precious-Commodities">&#182;</a></h2><h3 id="commodity_select.py">commodity_select.py<a class="anchor-link" href="#commodity_select.py">&#182;</a></h3><hr>
-<p>Here is the commodity_select.py which is used to created <em>Commodity Trend</em> tab.</p>
-<p>First step is to import the libraries required for passing data to the plot and dropdown select</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">bokeh.layouts</span> <span class="kn">import</span> <span class="n">column</span>
-<span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="kn">import</span> <span class="n">ColumnDataSource</span><span class="p">,</span> <span class="n">Select</span><span class="p">,</span> <span class="n">Panel</span><span class="p">,</span> <span class="n">HoverTool</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
-</pre></div>
-<p>Now lets define the function <em>tab_commodity</em> that will be called from main.py</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tab_commodity</span><span class="p">(</span><span class="n">commodities</span><span class="p">,</span> <span class="n">df_commodity</span><span class="p">):</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">960</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">540</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Commodity Trend&quot;</span><span class="p">,</span><span class="n">x_axis_type</span><span class="o">=</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span><span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;scale_width&quot;</span><span class="p">)</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">background_fill_color</span><span class="o">=</span><span class="s2">&quot;#f5f5f5&quot;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">background_fill_alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">grid_line_color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label</span> <span class="o">=</span> <span class="s1">&#39;Date&#39;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label</span> <span class="o">=</span> <span class="s1">&#39;Value in USD&#39;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">axis_line_color</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="n">hover</span> <span class="o">=</span> <span class="n">HoverTool</span><span class="p">()</span>
-
-    <span class="n">select_commodity</span> <span class="o">=</span> <span class="n">Select</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Commodity:&#39;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">commodities</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">options</span><span class="o">=</span><span class="n">commodities</span><span class="p">)</span>
-    <span class="n">x_val</span> <span class="o">=</span> <span class="n">df_commodity</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_commodity</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">select_commodity</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">y_val</span> <span class="o">=</span> <span class="n">df_commodity</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_commodity</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">select_commodity</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">.</span><span class="n">USD</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_val</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y_val</span><span class="p">)))</span>
-
-    <span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ebbd5b&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">line_width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">hover</span><span class="o">.</span><span class="n">tooltips</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;@x{</span><span class="si">%F</span><span class="s2">}&quot;</span><span class="p">),(</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="s2">&quot;$@{y}&quot;</span><span class="p">)]</span>
-    <span class="n">hover</span><span class="o">.</span><span class="n">formatters</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;x&#39;</span> <span class="p">:</span> <span class="s1">&#39;datetime&#39;</span>
-        <span class="p">}</span>
-    <span class="n">hover</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;vline&#39;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hover</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span><span class="p">):</span>
-        <span class="n">new_commodity</span> <span class="o">=</span> <span class="n">select_commodity</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">x_new</span> <span class="o">=</span> <span class="n">df_commodity</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_commodity</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_commodity</span><span class="p">]</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">y_new</span> <span class="o">=</span> <span class="n">df_commodity</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_commodity</span><span class="p">[</span><span class="s1">&#39;Commodity&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_commodity</span><span class="p">]</span><span class="o">.</span><span class="n">USD</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">source_new</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_new</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y_new</span><span class="p">)))</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">source_new</span><span class="o">.</span><span class="n">data</span>
-
-    <span class="n">select_commodity</span><span class="o">.</span><span class="n">on_change</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span><span class="n">callback</span><span class="p">)</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">column</span><span class="p">(</span><span class="n">select_commodity</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
-    <span class="n">tab2</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="n">child</span> <span class="o">=</span> <span class="n">layout</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Commodity Performance&#39;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">tab2</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Tab2---Stocks">Tab2 - Stocks<a class="anchor-link" href="#Tab2---Stocks">&#182;</a></h2><h3 id="main.py">main.py<a class="anchor-link" href="#main.py">&#182;</a></h3><hr>
-<p>Quandl has data on stocks which can be used to create dashboards that are useful for financial institutions. To get the data from quandl, we are going to use <em>get_table</em> method. Below is the code block for doing it</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scripts.Stocks_Select</span> <span class="kn">import</span> <span class="n">stock_tab</span>
-
-<span class="n">tickerlist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AAPL&#39;</span><span class="p">,</span><span class="s1">&#39;IBM&#39;</span><span class="p">,</span><span class="s1">&#39;MSFT&#39;</span><span class="p">,</span><span class="s1">&#39;GOOG&#39;</span><span class="p">]</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">quandl</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="s1">&#39;WIKI/PRICES&#39;</span><span class="p">,</span> <span class="n">qopts</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">,</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">]</span> <span class="p">},</span> 
-                       <span class="n">ticker</span> <span class="o">=</span> <span class="n">tickerlist</span><span class="p">,</span> <span class="n">date</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;gte&#39;</span><span class="p">:</span> <span class="s1">&#39;2016-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;lte&#39;</span><span class="p">:</span> <span class="s1">&#39;2016-12-31&#39;</span> <span class="p">})</span>
-</pre></div>
-<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;ticker&#39;</span><span class="p">,</span><span class="s1">&#39;date&#39;</span><span class="p">,</span><span class="s1">&#39;close&#39;</span><span class="p">]]</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
-</pre></div>
-<p>Calling the <em>stock_tab</em> function from <em>Stocks_Select.py</em></p>
-<div class="highlight"><pre><span></span><span class="n">tab1</span> <span class="o">=</span> <span class="n">stock_tab</span><span class="p">(</span><span class="n">tickerlist</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
-</pre></div>
-<h3 id="Stocks_Select.py">Stocks_Select.py<a class="anchor-link" href="#Stocks_Select.py">&#182;</a></h3><hr>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">bokeh.layouts</span> <span class="kn">import</span> <span class="n">column</span>
-<span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="kn">import</span> <span class="n">ColumnDataSource</span><span class="p">,</span> <span class="n">Select</span><span class="p">,</span> <span class="n">Panel</span><span class="p">,</span> <span class="n">HoverTool</span>
-<span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="kn">import</span> <span class="n">figure</span>
-
-<span class="k">def</span> <span class="nf">stock_tab</span><span class="p">(</span><span class="n">tickerlist</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">960</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">540</span><span class="p">,</span> <span class="n">x_axis_type</span><span class="o">=</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span><span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;scale_width&quot;</span><span class="p">)</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">background_fill_color</span><span class="o">=</span><span class="s2">&quot;#f5f5f5&quot;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">background_fill_alpha</span> <span class="o">=</span> <span class="mf">0.5</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">grid_line_color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">axis_label</span> <span class="o">=</span> <span class="s1">&#39;Date&#39;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">axis_label</span> <span class="o">=</span> <span class="s1">&#39;Value in USD&#39;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">axis_line_color</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="n">hover</span> <span class="o">=</span> <span class="n">HoverTool</span><span class="p">()</span>
-    <span class="n">hover</span><span class="o">.</span><span class="n">tooltips</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;@x{</span><span class="si">%F</span><span class="s2">}&quot;</span><span class="p">),(</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="s2">&quot;$@{y}&quot;</span><span class="p">)]</span>
-    <span class="n">hover</span><span class="o">.</span><span class="n">formatters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span><span class="s1">&#39;datetime&#39;</span><span class="p">}</span>
-    <span class="n">hover</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;vline&#39;</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hover</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span><span class="n">old</span><span class="p">,</span><span class="n">new</span><span class="p">):</span>
-        <span class="n">ticker_new</span> <span class="o">=</span> <span class="n">ticker</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ticker_new</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ticker_new</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">source_new</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">))</span>
-        <span class="n">source</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">source_new</span><span class="o">.</span><span class="n">data</span>
-        <span class="n">ticker</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">ticker_new</span>
-
-    <span class="n">ticker</span> <span class="o">=</span> <span class="n">Select</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Ticker:&quot;</span><span class="p">,</span><span class="n">value</span><span class="o">=</span><span class="n">tickerlist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">options</span><span class="o">=</span><span class="n">tickerlist</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ticker</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ticker&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ticker</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">ticker</span><span class="o">.</span><span class="n">on_change</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span><span class="n">callback</span><span class="p">)</span>
-    <span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">))</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
-    <span class="n">layout</span> <span class="o">=</span> <span class="n">column</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-    <span class="n">tab</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="n">child</span> <span class="o">=</span> <span class="n">layout</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Stock Performance&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tab</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Final-steps">Final steps<a class="anchor-link" href="#Final-steps">&#182;</a></h3><hr>
-<p>Combine tab1 and tab2</p>
-<div class="highlight"><pre><span></span><span class="n">tabs</span> <span class="o">=</span> <span class="n">Tabs</span><span class="p">(</span><span class="n">tabs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tab1</span><span class="p">,</span><span class="n">tab2</span><span class="p">])</span>
-</pre></div>
-<p>Pass tabs to curdoc</p>
-<div class="highlight"><pre><span></span><span class="n">curdoc</span><span class="p">()</span><span class="o">.</span><span class="n">add_root</span><span class="p">(</span><span class="n">tabs</span><span class="p">)</span>
-</pre></div>
-<p>All the code blocks above should be added to <em>main.py</em>. The directory format for the project should follow the structure outlined in the <a href="https://bokeh.pydata.org/en/latest/docs/user_guide/server.html#directory-format">link</a> here.</p>
-<p>The final output looks like</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
-
-<span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/jj_GTBJcNr0&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; encrypted-media; gyroscope&quot; allowfullscreen&gt;&lt;/iframe&gt;&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[24]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jj_GTBJcNr0" frameborder="0" allow="accelerometer; encrypted-media; gyroscope" allowfullscreen></iframe>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
  
 
-
+</body>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var mathjaxscript = document.createElement('script');
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -1281,6 +1064,34 @@ h6:hover .anchor-link {
 
             <li><article class="hentry">
                 <header>
+                    <h1><a href="../bokeh-application-using-quandl.html" rel="bookmark"
+                           title="Permalink to Bokeh Application Using Quandl">Bokeh Application Using Quandl</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-02-12T00:00:00-07:00">
+                Published: Tue 12 February 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="../author/vinay-sesham.html">Vinay Sesham</a>
+        </address>
+<p>In <a href="../category/articles.html">articles</a>.</p>
+<p>tags: <a href="../tag/bokeh-app.html">bokeh-app</a> </p>
+</footer><!-- /.post-info -->                
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Bokeh-dashboards-using-Quandl-datasets">Bokeh dashboards using Quandl datasets<a class="anchor-link" href="#Bokeh-dashboards-using-Quandl-datasets">&#182;</a></h1><p>Though I am not from financial industry, I can understand the need to track how precious commodities and stocks are performing over years. So I started looking into commodity/stock datasets available for creating useful charts/dashboard. One of my colleague told me about
+<a href="https://www.quandl.com/">Quandl</a> which has datasets realted to finance and economy sectors. So I set out to create a bokeh application using quandl data and this article outlines the steps performed to achieve it. In order to demonstrate how the app is built, I am going to choose a couple of stocks and commodities. You can extend it other quandl datasets.</p>
+                <a class="readmore" href="../bokeh-application-using-quandl.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
                     <h1><a href="../cut-the-time.html" rel="bookmark"
                            title="Permalink to Cut the Time">Cut the Time</a></h1>
                 </header>
@@ -1296,7 +1107,12 @@ h6:hover .anchor-link {
         </address>
 <p>In <a href="../category/projects.html">projects</a>.</p>
 <p>tags: <a href="../tag/mercedes-benz.html">mercedes-benz</a> </p>
-</footer><!-- /.post-info -->                <p>Cut the time a mercedes car spends on testing bench</p>
+</footer><!-- /.post-info -->                
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h1><h2 id="1.1-Project-Summary">1.1 Project Summary<a class="anchor-link" href="#1.1-Project-Summary">&#182;</a></h2><p>To ensure the safety and reliability of each and every unique car configuration before they hit the road, Daimler’s engineers have developed a robust testing system. But, optimizing the speed of their testing system for so many possible feature combinations is complex and time-consuming without a powerful algorithmic approach. As one of the world’s biggest manufacturers of premium cars, safety and efficiency are paramount on Daimler’s production lines.</p>
                 <a class="readmore" href="../cut-the-time.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
